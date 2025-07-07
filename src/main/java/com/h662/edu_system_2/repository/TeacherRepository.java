@@ -19,13 +19,24 @@ public class TeacherRepository {
                     .name(resultSet.getString("name"))
                     .build();
 
+
     public List<Teacher> findAll() {
         return jdbcTemplate.query("SELECT * FROM teacher ORDER BY name", mapper);
     }
 
+    public Teacher findById(int id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM teacher WHERE id = ?", mapper, id);
+    }
+
     public int save(Teacher teacher) {
         return jdbcTemplate.update(
-          "INSERT INTO teacher (name) VALUES (?)", teacher.getName()
+                "INSERT INTO teacher (name) VALUES (?)", teacher.getName()
+        );
+    }
+
+    public int update(Teacher teacher) {
+        return jdbcTemplate.update(
+                "UPDATE teacher SET name = ? WHERE id = ?", teacher.getName(), teacher.getId()
         );
     }
 }
